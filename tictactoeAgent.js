@@ -3,11 +3,26 @@ var Agent = function () {
 
 }
 
+// selecMove is our minimax algorithm
 Agent.prototype.selectMove = function(board) {
 
+    this.scrores = [];
+
     if (board.gameOver() !== 0) {
-        return board.gameOver();
+        // return board.gameOver();
+
+        if (board.gameOver() === 1) {
+            scores.push(1);
+        }
+        if (board.gameOver() === 2) {
+            scores.push(-1);
+        }
+        if (board.gameOver() === 3) {
+            scores.push(0);
+        }
+
     }
+
     // X turn
     if (board.playerOne) {
         var freeCells = [];
@@ -22,10 +37,11 @@ Agent.prototype.selectMove = function(board) {
         // loop through all possible moves
         for (var i = 0; i < freeCells.length; i++) {
             var gb = board.clone();   // make a copy of current game board
-            gb.move(i);
+            gb.move(freeCells[i]);
             this.selectMove(gb);
         }
     }
+
     // O turn
     if (!board.playerOne) {
         var freeCells = [];
@@ -44,7 +60,6 @@ Agent.prototype.selectMove = function(board) {
             this.selectMove(gb);
         }
     }
-
 
     // Marriot's code
     // var freeCells = [];
