@@ -17,7 +17,7 @@ var GameBoard = function () {
 
     this.X = [];
     this.O = [];
-    this.playerOne = true; 
+    this.playerOne = true;
 };
 
 GameBoard.prototype.cellFree = function (cell) {
@@ -98,6 +98,13 @@ GameBoard.prototype.clone = function () {
 GameBoard.prototype.playGame = function (pOne, pTwo, cb) {
     var that = this;
 
+    that.X.push(3);
+    that.X.push(5);
+    that.X.push(9);
+    that.O.push(4);
+    that.O.push(6);
+    that.O.push(7);
+
     function loop() {
         if (that.playerOne) that.move(pOne.selectMove(that.clone()));
         else that.move(pTwo.selectMove(that.clone()));
@@ -118,6 +125,7 @@ window.onload = function () {
     var newGame = document.getElementById("New Game");
 
     var gb = new GameBoard();
+
     var playerOne = new Agent();
     var playerTwo = new Agent();
 

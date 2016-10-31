@@ -5,34 +5,44 @@ var Agent = function () {
 
 // selecMove is our minimax algorithm
 Agent.prototype.selectMove = function(board) {
+
+
+    return minimax(board).move;
+
+
     // Marriot's code
-    var freeCells = [];
-    for (var i = 1; i < 10; i++) {
-        if (board.cellFree(i)) {
-            freeCells.push(i);
-        }
-    }
-    return freeCells[Math.floor(Math.random() * freeCells.length)];
+    // var freeCells = [];
+    // for (var i = 1; i < 10; i++) {
+    //     if (board.cellFree(i)) {
+    //         freeCells.push(i);
+    //     }
+    // }
+    // return freeCells[Math.floor(Math.random() * freeCells.length)];
 
 }
 
 
-Agent.prototype.mimimax = function(board, value) {
+// Agent.prototype.mimimax = function(board) {
+function minimax(board, cell) {
 
     // var minValue, maxValue;
-    var temp;
+    var move = cell;
+    var utility;
 
     if (board.gameOver() !== 0) {
         // return board.gameOver();
 
         if (board.gameOver() === 1) {
-            temp = 1;
+            utility = 1;
+            return {move, utility};
         }
         if (board.gameOver() === 2) {
-            temp = -1;
+            utility = -1;
+            return {move, utility};
         }
         if (board.gameOver() === 3) {
-            temp = 0;
+            utility = 0;
+            return {move, utility};
         }
 
     }
@@ -51,9 +61,9 @@ Agent.prototype.mimimax = function(board, value) {
         // loop through all possible moves
         for (var i = 0; i < freeCells.length; i++) {
             var gb = board.clone();   // make a copy of current game board
+            // move = freeCells[i];
             gb.move(freeCells[i]);
-            this.minimax(gb);
-
+            minimax(gb, freeCells[i]);
         }
     }
 
@@ -71,9 +81,11 @@ Agent.prototype.mimimax = function(board, value) {
         // loop through all possible moves
         for (var i = 0; i < freeCells.length; i++) {
             var gb = board.clone();   // make a copy of current game board
-            gb.move(freeCells(i));
-            this.minimax(gb);
+            // move = freeCells[i];
+            gb.move(freeCells[i]);
+            minimax(gb, freeCells[i]);
         }
     }
 
+    // return {move, utility};
 }
