@@ -3,11 +3,16 @@ var Agent = function () {
 
 }
 
+var Data = function (move, utility) {
+    this.move = move;
+    this.utility = utility;
+}
+
 // selecMove is our minimax algorithm
 Agent.prototype.selectMove = function(board) {
 
-
-    return minimax(board).move;
+    var data = minimax(board);
+    return data.move;
 
 
     // Marriot's code
@@ -29,20 +34,24 @@ function minimax(board, cell) {
     var move = cell;
     var utility;
 
+    var data = new Data(move, utility);
+
     if (board.gameOver() !== 0) {
-        // return board.gameOver();
 
         if (board.gameOver() === 1) {
             utility = 1;
-            return {move, utility};
+            data.utility = 1;
+            return data;
         }
         if (board.gameOver() === 2) {
             utility = -1;
-            return {move, utility};
+            data.utility = -1;
+            return data;
         }
         if (board.gameOver() === 3) {
             utility = 0;
-            return {move, utility};
+            data.utility = 0;
+            return data;
         }
 
     }
@@ -63,7 +72,7 @@ function minimax(board, cell) {
             var gb = board.clone();   // make a copy of current game board
             // move = freeCells[i];
             gb.move(freeCells[i]);
-            minimax(gb, freeCells[i]);
+            data = minimax(gb, freeCells[i]);
         }
     }
 
@@ -83,9 +92,9 @@ function minimax(board, cell) {
             var gb = board.clone();   // make a copy of current game board
             // move = freeCells[i];
             gb.move(freeCells[i]);
-            minimax(gb, freeCells[i]);
+            data = minimax(gb, freeCells[i]);
         }
     }
 
-    // return {move, utility};
+    // return data;
 }
