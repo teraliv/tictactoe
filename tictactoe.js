@@ -98,12 +98,12 @@ GameBoard.prototype.clone = function () {
 GameBoard.prototype.playGame = function (pOne, pTwo, cb) {
     var that = this;
 
-    that.X.push(3);
-    that.X.push(5);
-    that.X.push(9);
-    that.O.push(4);
-    that.O.push(6);
-    that.O.push(7);
+    // that.X.push(3);
+    // that.X.push(5);
+    // that.X.push(9);
+    // that.O.push(4);
+    // that.O.push(6);
+    // that.O.push(7);
 
     function loop() {
         if (that.playerOne) that.move(pOne.selectMove(that.clone()));

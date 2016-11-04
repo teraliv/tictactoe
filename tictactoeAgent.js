@@ -15,6 +15,7 @@ Agent.prototype.selectMove = function(board) {
     return data.move;
 
 
+
     // Marriot's code
     // var freeCells = [];
     // for (var i = 1; i < 10; i++) {
@@ -31,25 +32,23 @@ Agent.prototype.selectMove = function(board) {
 function minimax(board, cell) {
 
     // var minValue, maxValue;
-    var move = cell;
+    var move, currentMove;
     var utility;
 
-    var data = new Data(move, utility);
+    var data = new Data(cell, utility);
+    // var temp = new Data(move, utility);
 
     if (board.gameOver() !== 0) {
 
         if (board.gameOver() === 1) {
-            utility = 1;
             data.utility = 1;
             return data;
         }
         if (board.gameOver() === 2) {
-            utility = -1;
             data.utility = -1;
             return data;
         }
         if (board.gameOver() === 3) {
-            utility = 0;
             data.utility = 0;
             return data;
         }
@@ -70,9 +69,31 @@ function minimax(board, cell) {
         // loop through all possible moves
         for (var i = 0; i < freeCells.length; i++) {
             var gb = board.clone();   // make a copy of current game board
-            // move = freeCells[i];
             gb.move(freeCells[i]);
+            currentMove = freeCells[i];
             data = minimax(gb, freeCells[i]);
+
+            if (move === undefined) {
+                if (cell === undefined)
+                    move = currentMove;
+                else
+                    move = cell;
+            }
+
+            if (utility === undefined) {
+                utility = data.utility;
+                // move = freeCells[0];
+                // move = freeCells[i];
+                // data.move = move;
+            }
+            else if (utility < data.utility) {
+                utility = data.utility;
+                // move = currentMove;
+                // move = freeCells[i];
+                // data.utility = utility;
+                // data.move = move;
+            }
+
         }
     }
 
@@ -90,11 +111,31 @@ function minimax(board, cell) {
         // loop through all possible moves
         for (var i = 0; i < freeCells.length; i++) {
             var gb = board.clone();   // make a copy of current game board
-            // move = freeCells[i];
             gb.move(freeCells[i]);
+            currentMove = freeCells[i];
             data = minimax(gb, freeCells[i]);
+
+            if (move === undefined) {
+                if (cell === undefined)
+                    move = currentMove;
+                else
+                    move = cell;
+            }
+
+            if (utility === undefined) {
+                utility = data.utility;
+                // move = freeCells[0];
+                // data.move = move;
+            }
+            else if (utility > data.utility) {
+                utility = data.utility;
+                move = currentMove;
+                // data.utility = utility;
+                // data.move = move;
+            }
+
         }
     }
 
-    // return data;
+    return new Data(move, utility);
 }
