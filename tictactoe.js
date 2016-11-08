@@ -25,7 +25,6 @@ GameBoard.prototype.cellFree = function (cell) {
     else return false;
 };
 
-//
 GameBoard.prototype.move = function (cell) {
     if (this.cellFree(cell)) {
         this.playerOne ? this.X.push(cell) : this.O.push(cell);
@@ -81,7 +80,6 @@ GameBoard.prototype.reset = function () {
     this.playerOne = true;
 };
 
-//
 GameBoard.prototype.clone = function () {
     var gb = new GameBoard();
     for (var i = 0; i < this.X.length; i++) {
@@ -97,13 +95,6 @@ GameBoard.prototype.clone = function () {
 
 GameBoard.prototype.playGame = function (pOne, pTwo, cb) {
     var that = this;
-
-    // that.X.push(3);
-    // that.X.push(5);
-    // that.X.push(9);
-    // that.O.push(4);
-    // that.O.push(6);
-    // that.O.push(7);
 
     function loop() {
         if (that.playerOne) that.move(pOne.selectMove(that.clone()));
@@ -125,9 +116,30 @@ window.onload = function () {
     var newGame = document.getElementById("New Game");
 
     var gb = new GameBoard();
-
     var playerOne = new Agent();
     var playerTwo = new Agent();
+
+    // Board states that we have tested with our minimax algorithm
+    // that.X.push(3);
+    // that.X.push(5);
+    // that.X.push(9);
+    // that.O.push(4);
+    // that.O.push(6);
+    // that.O.push(7);
+
+    // that.X.push(3);
+    // that.X.push(6);
+    // that.X.push(8);
+    // that.O.push(1);
+    // that.O.push(4);
+    // that.O.push(5);
+
+    // that.X.push(1);
+    // that.X.push(4);
+    // that.X.push(6);
+    // that.O.push(2);
+    // that.O.push(7);
+    // that.O.push(9);
 
     newGame.onclick = function () {
         gb.reset();

@@ -8,28 +8,21 @@ var Data = function (move, utility) {
     this.utility = utility;
 }
 
-// selecMove is our minimax algorithm
 Agent.prototype.selectMove = function(board) {
 
-    var data = minimax(board);
+    var size = freeCells(board), cell;
+
+    var data = minimax(board, cell, size);
     return data.move;
-
-
-
-    // Marriot's code
-    // var freeCells = [];
-    // for (var i = 1; i < 10; i++) {
-    //     if (board.cellFree(i)) {
-    //         freeCells.push(i);
-    //     }
-    // }
-    // return freeCells[Math.floor(Math.random() * freeCells.length)];
-
 }
 
-
-// Agent.prototype.mimimax = function(board) {
-function minimax(board, cell) {
+/**
+* Minimax algorithm to find a best move
+* @param {GameBoard} board - current state of gameboard
+* @param {Number} cell - current cell to move
+* @param {Number} size - current number of empty cells
+*/
+function minimax(board, cell, size) {
 
     // var minValue, maxValue;
     var move, currentMove;
@@ -68,11 +61,12 @@ function minimax(board, cell) {
 
         // loop through all possible moves
         for (var i = 0; i < freeCells.length; i++) {
-            var gb = board.clone();   // make a copy of current game board
+            var gb = board.clone();             // make a copy of current game board
             gb.move(freeCells[i]);
             currentMove = freeCells[i];
             data = minimax(gb, freeCells[i]);
 
+            // select proper move for current board
             if (move === undefined) {
                 if (cell === undefined)
                     move = currentMove;
@@ -80,20 +74,18 @@ function minimax(board, cell) {
                     move = cell;
             }
 
+            // update utility value
             if (utility === undefined) {
                 utility = data.utility;
-                // move = freeCells[0];
-                // move = freeCells[i];
-                // data.move = move;
             }
+            // find better utility value
             else if (utility < data.utility) {
                 utility = data.utility;
-                // move = currentMove;
-                // move = freeCells[i];
-                // data.utility = utility;
-                // data.move = move;
-            }
 
+                // make the right move choice for initial board state
+                if (freeCells.length == size)
+                    move = currentMove;
+            }
         }
     }
 
@@ -115,6 +107,7 @@ function minimax(board, cell) {
             currentMove = freeCells[i];
             data = minimax(gb, freeCells[i]);
 
+            // select proper move for current board
             if (move === undefined) {
                 if (cell === undefined)
                     move = currentMove;
@@ -122,20 +115,34 @@ function minimax(board, cell) {
                     move = cell;
             }
 
+            // update utility value
             if (utility === undefined) {
                 utility = data.utility;
-                // move = freeCells[0];
-                // data.move = move;
             }
+            // find better utility value
             else if (utility > data.utility) {
                 utility = data.utility;
-                move = currentMove;
-                // data.utility = utility;
-                // data.move = move;
+
+                // make the right move choice for initial board state
+                if (freeCells.length == size)
+                    move = currentMove;
             }
 
         }
     }
 
     return new Data(move, utility);
+}
+
+/**
+* A function to find number of empty cells for the given gameboard
+*/
+function freeCells(board) {
+    var emptyCells = 0;
+
+    for (var i = 1; i < 10; i++) {
+        if (board.cellFree(i)) emptyCells++;
+    }
+
+    return emptyCells;
 }
